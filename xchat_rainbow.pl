@@ -8,11 +8,15 @@ package IRC::Xchat::Rainbow;
 IRC::register("xchat rainbow", "0.1", "", "");
 
 sub rainbow{
-  $_=shift@_;
-  chomp;
-  s{(.)}{       "\cC" . (int(rand(14))+2) . "\cB\cB$1"      }eg;
-  IRC::command ("/say $_");
-  return 1;
+    $_=shift@_;
+    chomp;
+
+    s{(.)}{
+	"\cC" . (int(rand(14))+2) . "\cB\cB$1"
+    }eg;
+
+    IRC::command ("/say $_");
+    return 1;
 }
 
 
