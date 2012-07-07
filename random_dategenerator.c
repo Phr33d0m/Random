@@ -1,4 +1,5 @@
 // This is a simple date generator that I needed to create a list of possible passwords for a cracker.
+// ======== USAGE =========
 // To compile: gcc -o random_dategenerator.c -o dategen
 // To run: ./dategen <first year> <last year>
 // If no args specified the default is 1970 - 2012 
