@@ -58,14 +58,14 @@ int main(int argc, char *argv[])
 			nprocs=omp_get_num_threads();
 		}
 
+		// Clock START.
+		start = omp_get_wtime();
+
 		// This block contains the matrix multiplication code.
 		{
 			// This (long x) optimizes the loops a little.
 			long x;
 			double temp;
-
-			// Clock START.
-			start = omp_get_wtime();
 
 			// Where the magic begins.
 			#pragma omp parallel for schedule(runtime)
