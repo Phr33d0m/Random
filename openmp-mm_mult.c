@@ -61,13 +61,6 @@ int main(int argc, char *argv[])
 		// This block contains the matrix multiplication code.
 		{
 			// This (long x) optimizes the loops a little.
-			// Test case: mat1(2000x2000) x mat2(2000x2000)
-			//   threads: 8
-			// -------------------------------
-			//    before: 18.219063 seconds
-			//     after: 16.466386 seconds
-			// -------------------------------
-			//  Speed up: 10.64%
 			long x;
 			double temp;
 
@@ -79,14 +72,8 @@ int main(int argc, char *argv[])
 			for (i = 0; i < mat_size; i++) {
 				x = i*mat_size;
 				for (j = 0; j < mat_size; j++) {
-					// Using 'reduction' with a temp variable optimizes the calculation a lot!
-					// Test case: mat1(2000x2000) x mat2(2000x2000)
-					//   threads: 8
-					// -------------------------------
-					//    before: 16.466386 seconds
-					//     after: 10.878906 seconds
-					// -------------------------------
-					//  Speed up: 51.36%
+					// Using 'reduction' with a temp variable
+					// optimizes the calculation a lot!
 					temp = 0;
 					#pragma omp parallel for reduction(+:temp)
 					for (k = 0; k < mat_size; k++)
