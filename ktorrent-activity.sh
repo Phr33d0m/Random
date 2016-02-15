@@ -82,9 +82,6 @@ function gettorrents {
 		TORR_SIZE_COMPL="$(numfmt --to=iec-i --suffix=B ${TORR_SIZE_COMPL_RAW})"
 		TORR_PERCENTAGE="$((TORR_SIZE_COMPL_RAW*100/TORR_SIZE_RAW))%"
 
-echo ${ARG_VERBOSE}
-echo ${ARG_ACTIVEONLY}
-
 		if [[ $ARG_VERBOSE = true ]]; then
 			if [[ $ARG_ACTIVEONLY = false ]] || [[ $ARG_ACTIVEONLY = true && ( TORR_SPEED_DL_RAW -gt 0 || TORR_SPEED_UP_RAW -gt 0 ) ]]; then
 				OUTPUT[OUTPUT_LINE]="${OUTPUT_LINE}. ${TORR_NAME} | Speed: ${TORR_SPEED_DL}/s ~ ${TORR_SPEED_UP}/s | Completed: ${TORR_PERCENTAGE}% (${TORR_SIZE_COMPL} / ${TORR_SIZE})"
