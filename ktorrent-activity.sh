@@ -1,10 +1,17 @@
 #!/bin/bash
+### KTorrent (very) simple activity tracker script
+### Receives 2 parameters:
+###		* --activity / -a : Shows only active torrents, requires -v
+###		* --verbose / -v : Show torrents info (if any) in the output
+
 
 ## VARS
 
 APP_NAME="$(qdbus org.ktorrent.ktorrent /MainApplication org.qtproject.Qt.QCoreApplication.applicationName)"
 APP_VER="$(qdbus org.ktorrent.ktorrent /MainApplication org.qtproject.Qt.QCoreApplication.applicationVersion)"
-ARGS="$1"
+
+ARG_ACTIVEONLY=false
+ARG_VERBOSE=false
 
 TORRENTS_IDS=0
 TORRENTS_COUNT_TOTAL=0
@@ -28,8 +35,17 @@ TORRENTS_COUNT_TOTAL=${#TORRENTS_IDS[@]}
 
 declare -a OUTPUT
 
-## AUX FUNCTION: PRINT OUTPUT & END
+## AUX: GATHER ARGS
+for ((i=1; i<=2; i++)); do
+	if [[ ${!i} = "--active" || ${!i} = "-a" ]]; then
+		ARG_ACTIVEONLY=true
+	elif [[ ${!i} = "--verbose" || ${!i} = "-v" ]]; then
+		ARG_VERBOSE=true
+	fi
+done
 
+
+## AUX FUNCTION: PRINT OUTPUT & END
 function end {
 	for LINE in ${!OUTPUT[*]}; do
 		echo "[${APP_NAME}]: ${OUTPUT[LINE]}"
@@ -66,10 +82,14 @@ function gettorrents {
 		TORR_SIZE_COMPL="$(numfmt --to=iec-i --suffix=B ${TORR_SIZE_COMPL_RAW})"
 		TORR_PERCENTAGE="$((TORR_SIZE_COMPL_RAW*100/TORR_SIZE_RAW))%"
 
-		if [[ ${ARGS} == "--verbose" ]]; then
-			OUTPUT[OUTPUT_LINE]="${OUTPUT_LINE}. ${TORR_NAME} | Speed: ${TORR_SPEED_DL}/s ~ ${TORR_SPEED_UP}/s | Completed: ${TORR_PERCENTAGE}% (${TORR_SIZE_COMPL} / ${TORR_SIZE})"
+echo ${ARG_VERBOSE}
+echo ${ARG_ACTIVEONLY}
 
-			OUTPUT_LINE=$((OUTPUT_LINE + 1))
+		if [[ $ARG_VERBOSE = true ]]; then
+			if [[ $ARG_ACTIVEONLY = false ]] || [[ $ARG_ACTIVEONLY = true && ( TORR_SPEED_DL_RAW -gt 0 || TORR_SPEED_UP_RAW -gt 0 ) ]]; then
+				OUTPUT[OUTPUT_LINE]="${OUTPUT_LINE}. ${TORR_NAME} | Speed: ${TORR_SPEED_DL}/s ~ ${TORR_SPEED_UP}/s | Completed: ${TORR_PERCENTAGE}% (${TORR_SIZE_COMPL} / ${TORR_SIZE})"
+				OUTPUT_LINE=$((OUTPUT_LINE + 1))
+			fi
 		fi
 
 		## 1.2. SUM UP TOTALS
