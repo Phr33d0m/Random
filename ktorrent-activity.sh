@@ -56,7 +56,7 @@ function end {
 
 ## 0. GET RUNNING / TOTAL
 function getinitinfo {
-	if (( ${TORRENTS_COUNT_TOTAL} > 0 )); then
+	if (( TORRENTS_COUNT_TOTAL > 0 )); then
 		OUTPUT[0]="Torrents: ${TORRENTS_COUNT_RUNNING} running / ${TORRENTS_COUNT_TOTAL} total"
 	else
 		OUTPUT[0]="No active torrents"
@@ -69,7 +69,7 @@ function getinitinfo {
 
 OUTPUT_LINE=1
 function gettorrents {
-	for ID in ${TORRENTS_IDS[@]}; do
+	for ID in "${TORRENTS_IDS[@]}"; do
 
 		TORR_NAME="$(qdbus org.ktorrent.ktorrent /torrent/${ID} name)"
 		TORR_SPEED_DL_RAW=$(qdbus org.ktorrent.ktorrent /torrent/${ID} downloadSpeed)
