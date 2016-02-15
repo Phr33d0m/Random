@@ -84,7 +84,7 @@ function gettorrents {
 
 		if [[ $ARG_VERBOSE = true ]]; then
 			if [[ $ARG_ACTIVEONLY = false ]] || [[ $ARG_ACTIVEONLY = true && ( TORR_SPEED_DL_RAW -gt 0 || TORR_SPEED_UP_RAW -gt 0 ) ]]; then
-				OUTPUT[OUTPUT_LINE]="${OUTPUT_LINE}. ${TORR_NAME} | Speed: ${TORR_SPEED_DL}/s ~ ${TORR_SPEED_UP}/s | Completed: ${TORR_PERCENTAGE}% (${TORR_SIZE_COMPL} / ${TORR_SIZE})"
+				OUTPUT[OUTPUT_LINE]="${OUTPUT_LINE}. ${TORR_NAME} | Speed: ${TORR_SPEED_DL}/s ~ ${TORR_SPEED_UP}/s | Completed: ${TORR_PERCENTAGE} (${TORR_SIZE_COMPL} / ${TORR_SIZE})"
 				OUTPUT_LINE=$((OUTPUT_LINE + 1))
 			fi
 		fi
@@ -106,9 +106,9 @@ function gettotals {
 	SPEED_UP="$(numfmt --to=iec-i --suffix=B ${SPEED_UP_RAW})"
 	SIZE="$(numfmt --to=iec-i --suffix=B ${SIZE_RAW})"
 	SIZE_COMPL="$(numfmt --to=iec-i --suffix=B ${SIZE_COMPL_RAW})"
-	PERCENTAGE=$((SIZE_COMPL_RAW*100/SIZE_RAW))
+	PERCENTAGE="$((SIZE_COMPL_RAW*100/SIZE_RAW))%"
 
-	OUTPUT[OUTPUT_LINE]="Total speed: ${SPEED_DL}/s ~ ${SPEED_UP}/s | Completed: ${PERCENTAGE}% (${SIZE_COMPL} / ${SIZE})"
+	OUTPUT[OUTPUT_LINE]="Total speed: ${SPEED_DL}/s ~ ${SPEED_UP}/s | Completed: ${PERCENTAGE} (${SIZE_COMPL} / ${SIZE})"
 }
 
 
