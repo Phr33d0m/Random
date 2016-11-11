@@ -1,8 +1,9 @@
 // ==UserScript==
 // @name         UF Logo Preview
 // @namespace    http://tampermonkey.net/
-// @version      1
+// @version      2
 // @description  Logo preview
+// @downloadURL  https://rawgit.com/Phr33d0m/Random/master/ufLogoPreview.user.js
 // @author       BuGiPoP
 // @match        http://foro.unionfansub.com/forumdisplay.php*
 // @require https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js
