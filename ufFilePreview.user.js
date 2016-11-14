@@ -1,24 +1,31 @@
 // ==UserScript==
 // @name         UF File Preview
 // @namespace    http://tampermonkey.net/
-// @version      2
+// @version      3
 // @description  File preview
 // @downloadURL  https://rawgit.com/Phr33d0m/Random/master/ufFilePreview.user.js
 // @author       BuGiPoP
 // @match        http://foro.unionfansub.com/forumdisplay.php*
-// @require https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js
+// @require      https://code.jquery.com/jquery-3.1.1.min.js
 // @grant        none
 // ==/UserScript==
 
 (function() {
     'use strict';
 
+    document.styleSheets[0].insertRule(".masinfo {z-index: 1 !important}", 0);
     document.styleSheets[0].insertRule(".masinfo span {display: inline-block !important}", 0);
     document.styleSheets[0].insertRule(".masinfo .ficha div {line-height: 12px !important}", 0);
 
-    jQuery('.ttitle').hover(function() {
-        var link = jQuery(this).children('a[id^=tid_]')[0].href;
-        var masinfo = jQuery(jQuery(this).find('.masinfo')[0]);
+    $('.ttitle').hover(function() {
+        var link = $(this).children('a').length === 2 ? $(this).children('a')[1].href : $(this).children('a')[0].href;
+
+        // If there's no masinfo element, add it
+        if(!$(this).find('.masinfo').length) {
+            $(this).append('<span class="masinfo"></span>');
+        }
+
+        var masinfo = $($(this).find('.masinfo')[0]);
 
         // If there's no file loaded yet, load it
         if(!masinfo.find('.ficha')[0]) {
