@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         UF File Preview
 // @namespace    http://tampermonkey.net/
-// @version      3
+// @version      3.1
 // @description  File preview
 // @downloadURL  https://rawgit.com/Phr33d0m/Random/master/ufFilePreview.user.js
 // @author       BuGiPoP
@@ -33,4 +33,9 @@
             masinfo.load(link + ' .ficha');
         }
     }, function() {});
+    
+    // Pre-load everything on load. Use this responsibly
+    // $('.ttitle').each(function(index, item) {
+    //     $(item).trigger('mouseenter');
+    // });
 })();
