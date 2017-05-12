@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         UF Seeded Threads
 // @namespace    http://tampermonkey.net/
-// @version      1.0
-// @description  View a title icon for seeded threads
+// @version      2
+// @description  See different torrent icon for seeded threads
 // @downloadURL  https://rawgit.com/Phr33d0m/Random/master/ufSeededThreads.user.js
 // @author       BuGiPoP
 // @match        http://foro.unionfansub.com/forumdisplay.php*
@@ -13,25 +13,30 @@
 (function() {
     'use strict';
 
-    $('.ttitle').each(function(index, item) {
-        var myname = $('#panel strong > a').text(),
-            link = null,
-            peers = [],
-            _peers = $('<div>');
+    var MY_ID = $('#panel strong > a')[0].href.replace('http://foro.unionfansub.com/member.php?action=profile&uid=', '');
+    var API_SEEDS = 'http://foro.unionfansub.com/seedeando.php?uid=' + MY_ID;
+    var TIDS = [];
 
-        // Fetch torrent peers
-        link = $(this).children('a').length === 2 ? $(this).children('a')[1].href : $(this).children('a')[0].href;
+    $('.ttitle > a').each(function(index, item) {
+        // Get tid from a.href
+        var tid = item.href.replace('http://foro.unionfansub.com/showthread.php?tid=', '');
+        TIDS.push(tid);
 
-        _peers.load(link + ' .ficha .torrent_peers a', null, function() {
-            // Get peers' names
-            _peers.children().each(function(index, peer) {
-                peers.push(peer.text);
+        // Add a helper attr to the td.ttitle
+        $(item).parent('td').attr('tid', tid);
+    });
+
+    // Get seeded threads only from all the threads
+    $.get(API_SEEDS, { 'tid[]': TIDS }).done(function(result) {
+        var threads = JSON.parse(result);
+        if(threads && threads.length) {
+            threads.each(function(thread) {
+                // Change icon for seeded threads
+                var torrentIcon = $('.ttitle[tid=' + thread + ']').closest('tr').find('span.host.torrent')[0];
+                if(torrentIcon) {
+                    $(torrentIcon).css('background', 'url(https://i.imgur.com/viQxL7l.png)');
+                }
             });
-
-            // Check if I'm a peer
-            if(peers.indexOf(myname) > -1) {
-                $(item).children('a').html('<span class="host torrent"></span>' + $(item).children('a').text());
-            }
-        });
+        }
     });
 })();
