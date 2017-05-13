@@ -1,9 +1,9 @@
 // ==UserScript==
-// @name         UF Seeded Threads
+// @name         UF Downloaded Torrents
 // @namespace    http://tampermonkey.net/
-// @version      2
-// @description  See different torrent icon for seeded threads
-// @downloadURL  https://rawgit.com/Phr33d0m/Random/master/ufSeededThreads.user.js
+// @version      1
+// @description  See different torrent icon for downloaded torrents in the forum
+// @downloadURL  https://rawgit.com/Phr33d0m/Random/master/ufDownloadedTorrentsForum.user.js
 // @author       BuGiPoP
 // @match        http://foro.unionfansub.com/forumdisplay.php*
 // @require      https://code.jquery.com/jquery-3.2.1.min.js
