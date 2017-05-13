@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         UF Downloaded Torrents
 // @namespace    http://tampermonkey.net/
-// @version      1
+// @version      2
 // @description  See different torrent icon for downloaded torrents in the forum
 // @downloadURL  https://rawgit.com/Phr33d0m/Random/master/ufDownloadedTorrentsForum.user.js
 // @author       BuGiPoP
@@ -32,12 +32,9 @@
     $.get(API_SEEDS, { 'tid[]': TIDS }).done(function(result) {
         var threads = JSON.parse(result);
         if(threads && threads.length) {
-            threads.each(function(thread) {
+            threads.forEach(function(thread) {
                 // Change icon for seeded threads
-                var torrentIcon = $('.ttitle[tid=' + thread + ']').closest('tr').find('span.host.torrent')[0];
-                if(torrentIcon) {
-                    $(torrentIcon).addClass('downloaded');
-                }
+                $($('.ttitle[tid=' + thread + ']').closest('tr').find('span.host.torrent')[0]).addClass('downloaded');
             });
         }
     });
