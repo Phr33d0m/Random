@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         UF Downloaded Torrents (List)
 // @namespace    http://tampermonkey.net/
-// @version      1
+// @version      2
 // @description  See different torrent icon for downloaded torrents in the forum
 // @downloadURL  https://rawgit.com/Phr33d0m/Random/master/ufDownloadedTorrentsForumList.user.js
 // @author       BuGiPoP
@@ -25,7 +25,7 @@
         var tid = item.href.replace('http://foro.unionfansub.com/showthread.php?tid=', '');
         TIDS.push(tid);
 
-        // Add a helper attr to the td.ttitle
+        // Add a helper attr
         $(item).attr('tid', tid);
     });
 
@@ -35,9 +35,11 @@
         if(i%50 !== 0 && TIDS.length !== (i + 1)) {
             _TIDS.push(TIDS[i]);
         }
-        else {
+        else if(i !== 0) {
             getAPI(_TIDS);
+
             _TIDS = [];
+            _TIDS.push(TIDS[i]);
         }
     }
 
@@ -45,12 +47,9 @@
         $.get(API_SEEDS, { 'tid[]': _TIDS }).done(function(result) {
             var threads = JSON.parse(result);
             if(threads && threads.length) {
-                threads.each(function(thread) {
+                threads.forEach(function(thread) {
                     // Change icon for seeded threads
-                    var torrentLink = $('.content a[tid=' + thread + ']')[0];
-                    if(torrentLink) {
-                        $(torrentLink).addClass('downloaded');
-                    }
+                    $($('.content a[tid=' + thread + ']')[0]).addClass('downloaded');
                 });
             }
         });
