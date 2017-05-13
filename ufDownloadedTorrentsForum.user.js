@@ -34,7 +34,7 @@
                 // Change icon for seeded threads
                 $($('.ttitle[tid=' + thread + ']').closest('tr').find('span.host.torrent')[0])
                     .addClass('downloaded')
-                    .attr('title', 'Torrent Descargado');;
+                    .attr('title', 'Torrent Descargado');
             });
         }
     });
