@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         UF Downloaded Torrents
 // @namespace    http://tampermonkey.net/
-// @version      2
+// @version      3
 // @description  See different torrent icon for downloaded torrents in the forum
 // @downloadURL  https://rawgit.com/Phr33d0m/Random/master/ufDownloadedTorrentsForum.user.js
 // @author       BuGiPoP
