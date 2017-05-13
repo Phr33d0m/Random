@@ -32,9 +32,7 @@
     // Get seeded threads only from all the threads
     var _TIDS = [];
     for(var i = 0; i < TIDS.length; i++) {
-        console.log(i%50 !== 0 + ' && ' + TIDS.length !== ++i);
-
-        if(i%50 !== 0 && TIDS.length !== ++i) {
+        if(i%50 !== 0 && TIDS.length !== (i + 1)) {
             _TIDS.push(TIDS[i]);
         }
         else {
