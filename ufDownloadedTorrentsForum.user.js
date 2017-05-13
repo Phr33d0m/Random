@@ -13,8 +13,6 @@
 (function() {
     'use strict';
 
-    document.styleSheets[0].insertRule("span.host.torrent.downloaded { background: url(https://i.imgur.com/viQxL7l.png) !important; }", 0);
-
     var MY_ID = $('#panel strong > a')[0].href.replace('http://foro.unionfansub.com/member.php?action=profile&uid=', '');
     var API_SEEDS = 'http://foro.unionfansub.com/seedeando.php?uid=' + MY_ID;
     var TIDS = [];
@@ -34,7 +32,9 @@
         if(threads && threads.length) {
             threads.forEach(function(thread) {
                 // Change icon for seeded threads
-                $($('.ttitle[tid=' + thread + ']').closest('tr').find('span.host.torrent')[0]).addClass('downloaded');
+                $($('.ttitle[tid=' + thread + ']').closest('tr').find('span.host.torrent')[0])
+                    .addClass('downloaded')
+                    .attr('title', 'Torrent Descargado');;
             });
         }
     });
